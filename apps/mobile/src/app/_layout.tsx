@@ -6,7 +6,7 @@ import { colors } from "@/theme";
 export default function RootLayout() {
   return (
     <>
-      <StatusBar style="light" />
+      <StatusBar style="auto" />
       <Stack
         screenOptions={{
           headerShown: false,
