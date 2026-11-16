@@ -131,8 +131,9 @@ export const backgroundSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("solid"), color: z.string() }),
   z.object({
     type: z.literal("gradient"),
-    /** CSS-style linear gradient string, e.g. "linear-gradient(160deg, #fa709a, #fee140)" */
-    value: z.string(),
+    /** degrees, CSS convention: 0 = to top, 90 = to right, clockwise */
+    angle: z.number(),
+    colors: z.array(z.string()).min(2),
   }),
   z.object({ type: z.literal("image"), src: z.string() }),
 ]);

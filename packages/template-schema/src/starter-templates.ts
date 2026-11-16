@@ -75,10 +75,7 @@ export const starterTemplates: Template[] = [
     aspect: "9:16",
     durationMs: 4000,
     canvas: { width: 1080, height: 1920 },
-    background: {
-      type: "gradient",
-      value: "linear-gradient(160deg, #fa709a 0%, #fee140 100%)",
-    },
+    background: { type: "gradient", angle: 160, colors: ["#fa709a", "#fee140"] },
     layers: [
       {
         type: "photo",
