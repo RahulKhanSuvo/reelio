@@ -1,6 +1,4 @@
-import { StyleSheet, type StyleProp, type ViewStyle } from "react-native";
 import { ThemedText } from "./themed-text";
-import { colors, radius, spacing } from "@/theme";
 
 /**
  * "PRO" marker. `accent` = yellow pill (page chrome);
@@ -8,34 +6,23 @@ import { colors, radius, spacing } from "@/theme";
  */
 export function ProBadge({
   variant = "overlay",
-  style,
+  className,
 }: {
   variant?: "accent" | "overlay";
-  style?: StyleProp<ViewStyle>;
+  className?: string;
 }) {
   return (
     <ThemedText
       variant="caption"
-      style={[
-        styles.badge,
-        {
-          backgroundColor: variant === "accent" ? colors.accent : colors.overlay,
-          color: variant === "accent" ? colors.onAccent : colors.label,
-        },
-        style,
-      ]}
+      className={[
+        "overflow-hidden rounded-full px-3 py-1.5 font-extrabold",
+        variant === "accent" ? "bg-accent text-on-accent" : "bg-overlay text-label",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       PRO
     </ThemedText>
   );
 }
-
-const styles = StyleSheet.create({
-  badge: {
-    fontWeight: "800",
-    borderRadius: radius.full,
-    overflow: "hidden",
-    paddingHorizontal: spacing.sm + 4,
-    paddingVertical: spacing.xs + 2,
-  },
-});

@@ -1,7 +1,6 @@
 import { Image } from "expo-image";
-import { Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { ThemedText } from "./themed-text";
-import { colors, radius, shadows, spacing } from "@/theme";
 
 export type Guide = {
   id: string;
@@ -19,12 +18,12 @@ export function GuideCard({
   guide,
   variant = "featured",
   onPress,
-  style,
+  className,
 }: {
   guide: Guide;
   variant?: "featured" | "row";
   onPress?: () => void;
-  style?: StyleProp<ViewStyle>;
+  className?: string;
 }) {
   const featured = variant === "featured";
 
@@ -33,26 +32,31 @@ export function GuideCard({
       accessibilityRole="button"
       accessibilityLabel={`Guide: ${guide.title}`}
       onPress={onPress}
-      style={({ pressed }) => [
-        styles.card,
-        featured ? styles.featured : styles.row,
-        pressed && { opacity: 0.85, transform: [{ scale: 0.98 }] },
-        style,
-      ]}
+      className={[
+        "overflow-hidden rounded-lg bg-surface active:scale-[0.98] active:opacity-85",
+        featured ? "h-[190px]" : "h-[150px]",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       {guide.image ? (
         <Image source={{ uri: guide.image }} style={StyleSheet.absoluteFill} contentFit="cover" />
       ) : null}
-      <View style={[styles.overlay, featured && styles.overlayFeatured]} />
-      <View style={featured ? styles.copy : styles.copyRow}>
+      <View
+        className={`absolute inset-0 ${featured ? "bg-black/35" : "bg-overlay"}`}
+      />
+      <View
+        className={`absolute bottom-0 left-0 right-0 ${featured ? "gap-1 p-6" : "p-3.5"}`}
+      >
         <ThemedText
-          style={[styles.title, featured ? styles.titleFeatured : styles.titleRow]}
           numberOfLines={featured ? 2 : 3}
+          className={featured ? "text-[20px] font-bold text-label" : "text-[14px] font-bold text-label"}
         >
           {guide.title}
         </ThemedText>
         {featured && guide.subtitle ? (
-          <ThemedText variant="caption" numberOfLines={1} style={styles.subtitle}>
+          <ThemedText variant="caption" numberOfLines={1} className="text-label-secondary">
             {guide.subtitle}
           </ThemedText>
         ) : null}
@@ -60,40 +64,3 @@ export function GuideCard({
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    borderRadius: radius.lg,
-    overflow: "hidden",
-    backgroundColor: colors.surface,
-    boxShadow: shadows.raised,
-  },
-  featured: { height: 190 },
-  row: { height: 150 },
-  overlay: {
-    ...StyleSheet.absoluteFill,
-    backgroundColor: colors.overlay,
-  },
-  overlayFeatured: {
-    backgroundColor: "rgba(0,0,0,0.35)",
-  },
-  copy: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
-    padding: spacing.lg,
-    gap: spacing.xs,
-  },
-  copyRow: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
-    padding: spacing.md - 2,
-  },
-  title: { color: colors.label, fontWeight: "700" },
-  titleFeatured: { fontSize: 20 },
-  titleRow: { fontSize: 14 },
-  subtitle: { color: colors.labelSecondary },
-});

@@ -5,7 +5,7 @@ import { getPhotoSlots, type Template } from "@reelio/template-schema";
 import { TemplateCanvas } from "./template-canvas";
 import { HeartButton } from "./heart-button";
 import { ThemedText } from "./themed-text";
-import { colors, radius, spacing } from "@/theme";
+import { colors } from "@/theme";
 
 /**
  * A template card: photo thumbnail (or live TemplateCanvas fallback),
@@ -39,65 +39,45 @@ export function TemplateCard({
       accessibilityRole="button"
       accessibilityLabel={`Use template ${template.name}`}
       onPress={onPress}
-      style={({ pressed }) => [pressed && { opacity: 0.85, transform: [{ scale: 0.98 }] }, style]}
-    >
-      <View style={[styles.canvas, { width, height }]}>
+      className="active:scale-[0.98] active:opacity-85"
+      style={style}    >
+      <View
+        className="overflow-hidden rounded-lg bg-surface"
+        style={{ width, height }}
+      >
         {image ? (
           <Image source={{ uri: image }} style={StyleSheet.absoluteFill} contentFit="cover" />
         ) : (
           <TemplateCanvas template={template} width={width} preview />
         )}
 
-        <HeartButton size={30} style={styles.heart} />
+        <HeartButton size={30} className="absolute top-2 right-2" />
 
-        <View style={styles.countBadge}>
+        <View className="absolute bottom-2 left-2 flex-row items-center gap-1 rounded-full bg-black/55 px-2 py-1">
           <PhotoIcon size={12} color={colors.label} />
-          <ThemedText variant="caption" style={styles.countText}>
+          <ThemedText variant="caption" className="font-bold text-label">
             {slotCount}
           </ThemedText>
         </View>
 
-        {pro ? <ThemedText style={styles.pro}>PRO</ThemedText> : null}
+        {pro ? (
+          <ThemedText
+            className="absolute bottom-2 right-2 text-[13px] font-extrabold text-label"
+            style={{
+              textShadowColor: "rgba(0,0,0,0.6)",
+              textShadowRadius: 6,
+              textShadowOffset: { width: 0, height: 1 },
+            }}
+          >
+            PRO
+          </ThemedText>
+        ) : null}
       </View>
       {showName ? (
-        <ThemedText variant="subhead" numberOfLines={1} style={styles.name}>
+        <ThemedText variant="subhead" numberOfLines={1} className="mt-2 text-label-secondary">
           {template.name}
         </ThemedText>
       ) : null}
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  canvas: {
-    borderRadius: radius.lg,
-    overflow: "hidden",
-    backgroundColor: colors.surface,
-  },
-  heart: { position: "absolute", top: spacing.sm, right: spacing.sm },
-  countBadge: {
-    position: "absolute",
-    bottom: spacing.sm,
-    left: spacing.sm,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.xs,
-    backgroundColor: "rgba(0,0,0,0.55)",
-    borderRadius: radius.full,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs,
-  },
-  countText: { color: colors.label, fontWeight: "700" },
-  pro: {
-    position: "absolute",
-    bottom: spacing.sm,
-    right: spacing.sm,
-    color: colors.label,
-    fontWeight: "800",
-    fontSize: 13,
-    textShadowColor: "rgba(0,0,0,0.6)",
-    textShadowRadius: 6,
-    textShadowOffset: { width: 0, height: 1 },
-  },
-  name: { marginTop: spacing.sm, color: colors.labelSecondary },
-});

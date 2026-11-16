@@ -1,26 +1,30 @@
 import { ChevronRight } from "lucide-react-native";
-import { Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
+import { Pressable, View } from "react-native";
 import { ThemedText } from "./themed-text";
-import { colors, spacing } from "@/theme";
+import { colors } from "@/theme";
 
 /** Section title with optional subtitle and circular "see all" chevron. */
 export function SectionHeader({
   title,
   subtitle,
   onPress,
-  style,
+  className,
 }: {
   title: string;
   subtitle?: string;
   onPress?: () => void;
-  style?: StyleProp<ViewStyle>;
+  className?: string;
 }) {
   return (
-    <View style={[styles.header, style]}>
-      <View style={styles.text}>
+    <View
+      className={["flex-row items-center justify-between gap-4", className]
+        .filter(Boolean)
+        .join(" ")}
+    >
+      <View className="flex-1 gap-1">
         <ThemedText variant="title">{title}</ThemedText>
         {subtitle ? (
-          <ThemedText variant="subhead" numberOfLines={1} style={styles.subtitle}>
+          <ThemedText variant="subhead" numberOfLines={1}>
             {subtitle}
           </ThemedText>
         ) : null}
@@ -30,7 +34,7 @@ export function SectionHeader({
           accessibilityRole="button"
           accessibilityLabel={`See all ${title}`}
           onPress={onPress}
-          style={({ pressed }) => [styles.chevron, pressed && { opacity: 0.7 }]}
+          className="h-9 w-9 items-center justify-center active:opacity-70"
         >
           <ChevronRight size={18} color={colors.labelSecondary} />
         </Pressable>
@@ -38,20 +42,3 @@ export function SectionHeader({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: spacing.md,
-  },
-  text: { flex: 1, gap: spacing.xs },
-  subtitle: { color: colors.labelSecondary },
-  chevron: {
-    width: 36,
-    height: 36,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

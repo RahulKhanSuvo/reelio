@@ -1,31 +1,31 @@
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Camera, Crown, Heart, Settings2 } from "lucide-react-native";
 import { FloatingTabBar } from "@/components/floating-tab-bar";
 import { ThemedText } from "@/components/themed-text";
-import { colors, radius, shadows, spacing } from "@/theme";
+import { colors, spacing } from "@/theme";
 
 /** Profile tab — dark placeholder styled to the reference until accounts ship. */
 export function ProfileScreen() {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[styles.screen, { paddingTop: insets.top + spacing.lg }]}>
-      <ThemedText variant="largeTitle" style={styles.title}>
+    <View className="flex-1 bg-bg" style={{ paddingTop: insets.top + spacing.lg }}>
+      <ThemedText variant="largeTitle" className="px-6">
         Profile
       </ThemedText>
 
-      <View style={styles.card}>
-        <View style={styles.avatar}>
-          <ThemedText style={styles.avatarText}>R</ThemedText>
+      <View className="mx-6 mt-6 flex-row items-center gap-4 rounded-lg bg-surface p-6">
+        <View className="h-14 w-14 items-center justify-center rounded-full bg-surface-raised">
+          <ThemedText className="text-[22px] font-extrabold text-accent">R</ThemedText>
         </View>
-        <View style={styles.copy}>
+        <View className="flex-1 gap-1">
           <ThemedText variant="headline">Reelio Creator</ThemedText>
           <ThemedText variant="subhead">Sign in to save likes &amp; exports</ThemedText>
         </View>
       </View>
 
-      <View style={styles.list}>
+      <View className="mx-6 mt-6 rounded-lg bg-surface py-2">
         <ProfileRow icon={<Crown size={20} color={colors.accent} />} label="Reelio PRO" />
         <ProfileRow icon={<Heart size={20} color={colors.label} />} label="Liked templates" />
         <ProfileRow icon={<Camera size={20} color={colors.label} />} label="My exports" />
@@ -39,52 +39,11 @@ export function ProfileScreen() {
 
 function ProfileRow({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
-    <View style={styles.row}>
+    <View className="flex-row items-center gap-4 px-6 py-3.5">
       {icon}
-      <ThemedText variant="body" style={styles.rowLabel}>
+      <ThemedText variant="body" className="flex-1">
         {label}
       </ThemedText>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.bg },
-  title: { paddingHorizontal: spacing.lg },
-  card: {
-    marginHorizontal: spacing.lg,
-    marginTop: spacing.lg,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.md,
-    backgroundColor: colors.surface,
-    borderRadius: radius.lg,
-    padding: spacing.lg,
-    boxShadow: shadows.card,
-  },
-  avatar: {
-    width: 56,
-    height: 56,
-    borderRadius: radius.full,
-    backgroundColor: colors.surfaceRaised,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  avatarText: { color: colors.accent, fontWeight: "800", fontSize: 22 },
-  copy: { gap: spacing.xs, flex: 1 },
-  list: {
-    marginHorizontal: spacing.lg,
-    marginTop: spacing.lg,
-    backgroundColor: colors.surface,
-    borderRadius: radius.lg,
-    paddingVertical: spacing.sm,
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.md,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md - 2,
-  },
-  rowLabel: { flex: 1 },
-});

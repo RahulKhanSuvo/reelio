@@ -3,3 +3,23 @@
 @import "tailwindcss/utilities.css";
 
 @import "nativewind/theme";
+
+/* Reelio design tokens — mirrors the values in src/theme.ts.
+   Generates utilities: bg-accent, text-label, rounded-lg, border-hairline… */
+@theme {
+  --color-bg: #000000;
+  --color-surface: #1c1c1e;
+  --color-surface-raised: #2a2a2e;
+  --color-label: #ffffff;
+  --color-label-secondary: rgba(235, 235, 245, 0.6);
+  --color-label-tertiary: rgba(235, 235, 245, 0.35);
+  --color-accent: #ffd60a;
+  --color-on-accent: #000000;
+  --color-overlay: rgba(0, 0, 0, 0.55);
+  --color-hairline: rgba(255, 255, 255, 0.12);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+}

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Alert, FlatList, ScrollView, StyleSheet, View } from "react-native";
+import { Alert, FlatList, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Chip } from "@/components/chip";
 import { HeartButton } from "@/components/heart-button";
@@ -12,7 +12,7 @@ import { FloatingTabBar } from "@/components/floating-tab-bar";
 import { trendingTemplates, CATEGORIES, type Category } from "@/data/templates";
 import { filterPresets } from "@/data/filters";
 import { heroImage } from "@/data/images";
-import { colors, radius, spacing } from "@/theme";
+import { spacing } from "@/theme";
 
 const CARD_WIDTH = 128;
 
@@ -35,100 +35,73 @@ export function HomeScreen() {
     Alert.alert("Filters", `“${filter.name}” applies during export — coming next.`);
 
   return (
-    <View style={styles.screen}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.content}
-      >
-        {/* full-bleed hero */}
-        <View style={styles.hero}>
-          <HeroBanner image={heroImage} onCreate={onCreate} />
+    <ScrollView className="flex-1 bg-bg" contentContainerClassName="pb-[150px]">
+      {/* full-bleed hero */}
+      <View className="bg-bg">
+        <HeroBanner image={heroImage} onCreate={onCreate} />
 
-          {/* chrome floats over the photo */}
-          <View style={[styles.chrome, { paddingTop: insets.top + spacing.sm }]}>
-            <ProBadge variant="accent" />
-            <HeartButton size={38} />
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.categories}
-            >
-              {CATEGORIES.map((item) => (
-                <Chip
-                  key={item}
-                  label={item}
-                  variant="ghost"
-                  active={item === category}
-                  onPress={() => setCategory(item)}
-                />
-              ))}
-            </ScrollView>
-          </View>
-        </View>
-
-        {/* rounded content sheet overlapping the hero */}
-        <View style={styles.sheet}>
-          <SectionHeader title="Trending 🔥" onPress={() => setCategory("For You")} />
+        {/* chrome floats over the photo */}
+        <View
+          className="absolute inset-0 flex-row items-center gap-2 px-6"
+          style={{ paddingTop: insets.top + spacing.sm }}
+        >
+          <ProBadge variant="accent" />
+          <HeartButton size={38} />
           <FlatList
-            data={trending}
-            keyExtractor={(entry) => entry.template.id}
+            data={CATEGORIES}
+            keyExtractor={(item) => item}
             renderItem={({ item }) => (
-              <TemplateCard
-                template={item.template}
-                width={CARD_WIDTH}
-                image={item.image}
-                pro={item.pro}
-                onPress={() => onUseTemplate(item.template.name)}
+              <Chip
+                label={item}
+                variant="ghost"
+                active={item === category}
+                onPress={() => setCategory(item)}
               />
             )}
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.rowContent}
-          />
-
-          <SectionHeader
-            title="Filters"
-            subtitle="Every look we've made, all in one scroll — find the perfect vibe"
-            onPress={() => onFilter(filterPresets[0])}
-          />
-          <FlatList
-            data={filterPresets}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <FilterCard filter={item} onPress={() => onFilter(item)} />
-            )}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.rowContent}
+            contentContainerClassName="flex-row gap-6 grow"
+            style={{ flexGrow: 1 }}
           />
         </View>
-      </ScrollView>
+      </View>
+
+      {/* rounded content sheet overlapping the hero */}
+      <View className="-mt-6 gap-6 rounded-t-3xl bg-bg px-6 pt-6">
+        <SectionHeader title="Trending 🔥" onPress={() => setCategory("For You")} />
+        <FlatList
+          data={trending}
+          keyExtractor={(entry) => entry.template.id}
+          renderItem={({ item }) => (
+            <TemplateCard
+              template={item.template}
+              width={CARD_WIDTH}
+              image={item.image}
+              pro={item.pro}
+              onPress={() => onUseTemplate(item.template.name)}
+            />
+          )}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerClassName="gap-4 py-1"
+        />
+
+        <SectionHeader
+          title="Filters"
+          subtitle="Every look we've made, all in one scroll — find the perfect vibe"
+          onPress={() => onFilter(filterPresets[0])}
+        />
+        <FlatList
+          data={filterPresets}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <FilterCard filter={item} onPress={() => onFilter(item)} />}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerClassName="gap-4 py-1"
+        />
+      </View>
 
       <FloatingTabBar />
-    </View>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.bg },
-  content: { paddingBottom: 150 },
-  hero: { backgroundColor: colors.bg },
-  chrome: {
-    ...StyleSheet.absoluteFill,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.sm,
-    paddingHorizontal: spacing.lg,
-  },
-  categories: { flexDirection: "row", gap: spacing.lg, flexGrow: 1 },
-  sheet: {
-    marginTop: -radius.xl,
-    borderTopLeftRadius: radius.xl,
-    borderTopRightRadius: radius.xl,
-    backgroundColor: colors.bg,
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.lg,
-    gap: spacing.lg,
-  },
-  rowContent: { gap: spacing.md, paddingVertical: spacing.xs },
-});

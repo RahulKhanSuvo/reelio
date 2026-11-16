@@ -3,7 +3,7 @@ import { CirclePlus, Compass, House, User } from "lucide-react-native";
 import { usePathname, useRouter } from "expo-router";
 import { Alert, Pressable, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { colors, radius, shadows, spacing } from "@/theme";
+import { colors, spacing } from "@/theme";
 
 type TabDef = {
   route: string;
@@ -14,6 +14,7 @@ type TabDef = {
 const TABS: TabDef[] = [
   { route: "/", label: "Home", Icon: House },
   { route: "/guides", label: "Guides", Icon: Compass },
+  { route: "/profile", label: "Profile", Icon: User },
 ];
 
 /**
@@ -31,34 +32,33 @@ export function FloatingTabBar() {
   return (
     <View
       pointerEvents="box-none"
-      style={[styles.wrap, { bottom: insets.bottom + spacing.sm }]}
+      className="absolute left-0 right-0 items-center"
+      style={{ bottom: insets.bottom + spacing.sm }}
     >
-      <BlurView intensity={40} tint="dark" style={styles.bar}>
-        <TabButton tab={TABS[0]} active={activeFor(TABS[0].route)} onPress={router.navigate} />
+      <View className="overflow-hidden rounded-full">
+        <BlurView intensity={40} tint="dark" style={StyleSheet.absoluteFill} />
+        <View className="min-w-[320px] flex-row items-center justify-between rounded-full border border-hairline bg-[rgba(20,20,22,0.72)] px-7 py-3 shadow-[0_8px_24px_rgba(0,0,0,0.18)]">
+          <TabButton tab={TABS[0]} active={activeFor(TABS[0].route)} onPress={router.navigate} />
 
-        {/* circled create action */}
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Create"
-          onPress={() =>
-            Alert.alert(
-              "Create",
-              "The editor is coming next — pick a template from Trending for now."
-            )
-          }
-          style={({ pressed }) => [styles.action, pressed && { opacity: 0.7 }]}
-        >
-          <CirclePlus size={30} color={colors.label} strokeWidth={1.8} />
-        </Pressable>
+          {/* circled create action */}
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Create"
+            onPress={() =>
+              Alert.alert(
+                "Create",
+                "The editor is coming next — pick a template from Trending for now."
+              )
+            }
+            className="h-12 w-12 items-center justify-center rounded-full active:opacity-70"
+          >
+            <CirclePlus size={30} color={colors.label} strokeWidth={1.8} />
+          </Pressable>
 
-        <TabButton tab={TABS[1]} active={activeFor(TABS[1].route)} onPress={router.navigate} />
-
-        <TabButton
-          tab={{ route: "/profile", label: "Profile", Icon: User }}
-          active={activeFor("/profile")}
-          onPress={router.navigate}
-        />
-      </BlurView>
+          <TabButton tab={TABS[1]} active={activeFor(TABS[1].route)} onPress={router.navigate} />
+          <TabButton tab={TABS[2]} active={activeFor(TABS[2].route)} onPress={router.navigate} />
+        </View>
+      </View>
     </View>
   );
 }
@@ -78,7 +78,7 @@ function TabButton({
       accessibilityState={{ selected: active }}
       accessibilityLabel={tab.label}
       onPress={() => onPress(tab.route as never)}
-      style={({ pressed }) => [styles.action, pressed && { opacity: 0.7 }]}
+      className="h-12 w-12 items-center justify-center rounded-full active:opacity-70"
     >
       <tab.Icon
         size={26}
@@ -88,33 +88,3 @@ function TabButton({
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  wrap: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    alignItems: "center",
-  },
-  bar: {
-    overflow: "hidden",
-    borderRadius: radius.full,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.hairline,
-    backgroundColor: "rgba(20,20,22,0.72)",
-    boxShadow: shadows.overlay,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: spacing.xl - 4,
-    paddingVertical: spacing.md - 4,
-    minWidth: 320,
-  },
-  action: {
-    width: 48,
-    height: 48,
-    borderRadius: radius.full,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

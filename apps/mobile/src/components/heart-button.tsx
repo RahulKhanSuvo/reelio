@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { Heart } from "lucide-react-native";
-import { Pressable, StyleSheet, type StyleProp, type ViewStyle } from "react-native";
-import { colors, radius, shadows } from "@/theme";
+import { Pressable, type StyleProp, type ViewStyle } from "react-native";
+import { colors } from "@/theme";
 
 /** Round white favorite button used on cards and sheet cells. */
 export function HeartButton({
   size = 36,
+  className,
   style,
 }: {
   size?: number;
+  className?: string;
   style?: StyleProp<ViewStyle>;
 }) {
   const [liked, setLiked] = useState(false);
@@ -19,12 +21,10 @@ export function HeartButton({
       accessibilityLabel={liked ? "Unlike" : "Like"}
       accessibilityState={{ selected: liked }}
       onPress={() => setLiked((value) => !value)}
-      style={({ pressed }) => [
-        styles.button,
-        { width: size, height: size },
-        pressed && { opacity: 0.8 },
-        style,
-      ]}
+      className={["items-center justify-center rounded-full bg-label active:opacity-80", className]
+        .filter(Boolean)
+        .join(" ")}
+      style={[{ width: size, height: size }, style]}
     >
       <Heart
         size={size * 0.5}
@@ -34,13 +34,3 @@ export function HeartButton({
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    borderRadius: radius.full,
-    backgroundColor: colors.label,
-    alignItems: "center",
-    justifyContent: "center",
-    boxShadow: shadows.raised,
-  },
-});

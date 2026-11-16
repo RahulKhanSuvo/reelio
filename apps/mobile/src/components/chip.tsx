@@ -1,6 +1,5 @@
-import { Pressable, StyleSheet, type StyleProp, type ViewStyle } from "react-native";
+import { Pressable } from "react-native";
 import { ThemedText } from "./themed-text";
-import { colors, radius, spacing } from "@/theme";
 
 type Variant = "solid" | "ghost";
 
@@ -13,19 +12,22 @@ export function Chip({
   active = false,
   onPress,
   variant = "solid",
-  style,
+  className,
 }: {
   label: string;
   active?: boolean;
   onPress?: () => void;
   variant?: Variant;
-  style?: StyleProp<ViewStyle>;
+  className?: string;
 }) {
   if (variant === "ghost") {
     return (
-      <Pressable onPress={onPress} style={({ pressed }) => [pressed && { opacity: 0.7 }, style]}>
+      <Pressable
+        onPress={onPress}
+        className={["active:opacity-70", className].filter(Boolean).join(" ")}
+      >
         <ThemedText
-          style={[styles.ghost, { color: active ? colors.label : colors.labelTertiary }]}
+          className={`text-[17px] font-bold ${active ? "text-label" : "text-label-tertiary"}`}
         >
           {label}
         </ThemedText>
@@ -38,31 +40,19 @@ export function Chip({
       accessibilityRole="button"
       accessibilityState={{ selected: active }}
       onPress={onPress}
-      style={({ pressed }) => [
-        styles.solid,
-        { backgroundColor: active ? colors.accent : colors.surfaceRaised },
-        pressed && { opacity: 0.8 },
-        style,
-      ]}
+      className={[
+        "rounded-full px-5 py-2.5 active:opacity-80",
+        active ? "bg-accent" : "bg-surface-raised",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       <ThemedText
-        style={[
-          styles.solidLabel,
-          { color: active ? colors.onAccent : colors.label },
-        ]}
+        className={`text-[15px] font-bold ${active ? "text-on-accent" : "text-label"}`}
       >
         {label}
       </ThemedText>
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  solid: {
-    borderRadius: radius.full,
-    paddingHorizontal: spacing.lg - 4,
-    paddingVertical: spacing.sm + 2,
-  },
-  solidLabel: { fontSize: 15, fontWeight: "700" },
-  ghost: { fontSize: 17, fontWeight: "700" },
-});
