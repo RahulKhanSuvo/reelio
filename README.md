@@ -1,4 +1,4 @@
-# my-mobile-app
+# Reelio
 
 Turborepo monorepo for a story/reels template maker (a "500 Stories"-style
 product):

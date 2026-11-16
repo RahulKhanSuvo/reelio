@@ -58,7 +58,7 @@ create table if not exists public.templates (
   created_by uuid references public.profiles (id) on delete set null,
   name text not null,
   category text not null check (category in ('story', 'reel')),
-  -- shape validated by @my-mobile-app/template-schema
+  -- shape validated by @reelio/template-schema
   schema jsonb not null,
   preview_image_url text,
   preview_video_url text,

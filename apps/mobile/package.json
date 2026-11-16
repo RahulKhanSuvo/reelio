@@ -1,10 +1,10 @@
 {
-  "name": "@my-mobile-app/mobile",
+  "name": "@reelio/mobile",
   "version": "1.0.0",
   "main": "expo-router/entry",
   "dependencies": {
     "@expo/ui": "~58.0.28",
-    "@my-mobile-app/template-schema": "workspace:*",
+    "@reelio/template-schema": "workspace:*",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@supabase/supabase-js": "^2.119.0",
     "expo": "~58.0.25",

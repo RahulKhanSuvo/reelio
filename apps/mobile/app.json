@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "my-mobile-app",
-    "slug": "my-mobile-app",
+    "name": "Reelio",
+    "slug": "reelio",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "mymobileapp",
+    "scheme": "reelio",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon"

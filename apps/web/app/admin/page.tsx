@@ -1,6 +1,6 @@
 "use client";
 
-import type { Template } from "@my-mobile-app/template-schema";
+import type { Template } from "@reelio/template-schema";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";

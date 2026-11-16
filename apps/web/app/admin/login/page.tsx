@@ -38,7 +38,7 @@ export default function LoginPage() {
     <main className="flex min-h-dvh items-center justify-center px-6">
       <form
         onSubmit={handleSignIn}
-        className="w-full max-w-sm rounded-2xl border border-white/10 bg-white/[0.03] p-8"
+        className="w-full max-w-sm rounded-2xl border border-white/10 bg-white/3 p-8"
       >
         <h1 className="text-xl font-bold">Admin sign in</h1>
         <p className="mt-1 text-sm text-white/50">

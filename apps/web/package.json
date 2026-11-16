@@ -1,5 +1,5 @@
 {
-  "name": "@my-mobile-app/web",
+  "name": "@reelio/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@my-mobile-app/template-schema": "workspace:*",
+    "@reelio/template-schema": "workspace:*",
     "@supabase/supabase-js": "^2.119.0",
     "next": "16.4.6",
     "react": "19.3.0",

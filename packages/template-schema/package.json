@@ -1,5 +1,5 @@
 {
-  "name": "@my-mobile-app/template-schema",
+  "name": "@reelio/template-schema",
   "version": "0.1.0",
   "private": true,
   "main": "./src/index.ts",
