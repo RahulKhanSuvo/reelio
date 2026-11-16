@@ -1,7 +1,7 @@
 import { ChevronRight } from "lucide-react-native";
 import { Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 import { ThemedText } from "./themed-text";
-import { colors, radius, spacing } from "@/theme";
+import { colors, spacing } from "@/theme";
 
 /** Section title with optional subtitle and circular "see all" chevron. */
 export function SectionHeader({
@@ -51,8 +51,6 @@ const styles = StyleSheet.create({
   chevron: {
     width: 36,
     height: 36,
-    borderRadius: radius.full,
-    backgroundColor: colors.surface,
     alignItems: "center",
     justifyContent: "center",
   },

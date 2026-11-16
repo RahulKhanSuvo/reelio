@@ -1,24 +1,30 @@
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { Pressable, StyleSheet, type StyleProp, type ViewStyle } from "react-native";
+import { ProBadge } from "./pro-badge";
 import { ThemedText } from "./themed-text";
-import { colors, radius, shadows, spacing } from "@/theme";
+import { radius, spacing } from "@/theme";
 
 export type FilterPreset = {
   id: string;
   name: string;
-  /** gradient stand-in until real LUT previews exist */
+  /** demo photo; real filtered output comes with the filter engine */
+  image?: string;
+  /** gradient fallback when no photo is available */
   swatch: [string, string];
 };
 
-/** Small square card in the "Filters" row showing a filter swatch + name. */
+/** Portrait photo card in the "Filters" row: name bottom-left, PRO top-right. */
 export function FilterCard({
   filter,
-  size = 120,
+  width = 150,
+  height = 200,
   onPress,
   style,
 }: {
   filter: FilterPreset;
-  size?: number;
+  width?: number;
+  height?: number;
   onPress?: () => void;
   style?: StyleProp<ViewStyle>;
 }) {
@@ -33,16 +39,35 @@ export function FilterCard({
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         colors={filter.swatch}
-        style={[styles.swatch, { width: size, height: size, boxShadow: shadows.raised }]}
-      />
-      <ThemedText variant="caption" numberOfLines={1} style={styles.name}>
-        {filter.name}
-      </ThemedText>
+        style={[styles.card, { width, height }]}
+      >
+        {filter.image ? (
+          <Image source={{ uri: filter.image }} style={StyleSheet.absoluteFill} contentFit="cover" />
+        ) : null}
+        <LinearGradient
+          style={StyleSheet.absoluteFill}
+          colors={["transparent", "rgba(0,0,0,0.55)"]}
+          locations={[0.55, 1]}
+        />
+        <ProBadge variant="overlay" style={styles.pro} />
+        <ThemedText style={styles.name} numberOfLines={1}>
+          {filter.name}
+        </ThemedText>
+      </LinearGradient>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  swatch: { borderRadius: radius.md },
-  name: { marginTop: spacing.sm, color: colors.labelSecondary },
+  card: { borderRadius: radius.md, overflow: "hidden" },
+  pro: { position: "absolute", top: spacing.sm, right: spacing.sm },
+  name: {
+    position: "absolute",
+    bottom: spacing.sm + 2,
+    left: spacing.sm + 2,
+    right: spacing.sm,
+    color: "#ffffff",
+    fontWeight: "700",
+    fontSize: 14,
+  },
 });
