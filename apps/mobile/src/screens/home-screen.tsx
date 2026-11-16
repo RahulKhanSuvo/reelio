@@ -35,8 +35,9 @@ export function HomeScreen() {
     Alert.alert("Filters", `“${filter.name}” applies during export — coming next.`);
 
   return (
-    <ScrollView className="flex-1 bg-bg" contentContainerClassName="pb-[150px]">
-      {/* full-bleed hero */}
+    <View className="flex-1 bg-bg">
+      <ScrollView contentContainerClassName="pb-[150px]">
+        {/* full-bleed hero */}
       <View className="bg-bg">
         <HeroBanner image={heroImage} onCreate={onCreate} />
 
@@ -100,8 +101,10 @@ export function HomeScreen() {
           contentContainerClassName="gap-4 py-1"
         />
       </View>
+      </ScrollView>
 
+      {/* tab bar anchored to the screen, not the scroll content */}
       <FloatingTabBar />
-    </ScrollView>
+    </View>
   );
 }
