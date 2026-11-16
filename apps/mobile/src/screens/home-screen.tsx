@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Alert, FlatList, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Chip } from "@/components/chip";
+// import { Chip } from "@/components/chip";
 import { HeartButton } from "@/components/heart-button";
 import { ProBadge } from "@/components/pro-badge";
 import { HeroBanner } from "@/components/hero-banner";
@@ -9,7 +9,7 @@ import { TemplateCard } from "@/components/template-card";
 import { FilterCard, type FilterPreset } from "@/components/filter-card";
 import { SectionHeader } from "@/components/section-header";
 import { FloatingTabBar } from "@/components/floating-tab-bar";
-import { trendingTemplates, CATEGORIES, type Category } from "@/data/templates";
+import { trendingTemplates, type Category } from "@/data/templates";
 import { filterPresets } from "@/data/filters";
 import { heroImage } from "@/data/images";
 import { spacing } from "@/theme";
@@ -47,7 +47,7 @@ export function HomeScreen() {
         >
           <ProBadge variant="accent" />
           <HeartButton size={38} />
-          <FlatList
+          {/*<FlatList
             data={CATEGORIES}
             keyExtractor={(item) => item}
             renderItem={({ item }) => (
@@ -62,12 +62,12 @@ export function HomeScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerClassName="flex-row gap-6 grow"
             style={{ flexGrow: 1 }}
-          />
+          />*/}
         </View>
       </View>
 
       {/* rounded content sheet overlapping the hero */}
-      <View className="-mt-6 gap-6 rounded-t-3xl bg-bg px-6 pt-6">
+      <View className="-mt-6 gap-6 rounded-t-3xl bg-bg pt-6">
         <SectionHeader title="Trending 🔥" onPress={() => setCategory("For You")} />
         <FlatList
           data={trending}
