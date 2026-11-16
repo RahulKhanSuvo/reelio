@@ -8,6 +8,15 @@ node_modules/
 dist/
 web-build/
 expo-env.d.ts
+apps/*/ios
+apps/*/android
+
+# Next.js
+.next/
+next-env.d.ts
+
+# Turborepo
+.turbo/
 
 # Native
 .kotlin/
